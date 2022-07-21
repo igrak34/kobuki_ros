@@ -21,6 +21,7 @@ def generate_launch_description():
     kobuki_ros_node = launch_ros.actions.Node(package='kobuki_node',
                                               executable='kobuki_ros_node',
                                               output='both',
-                                              parameters=[params])
+                                              parameters=[params],
+                                              remappings=[('/odom','/odom_raw')])
 
     return launch.LaunchDescription([kobuki_ros_node])
