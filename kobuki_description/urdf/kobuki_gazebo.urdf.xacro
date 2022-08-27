@@ -2,7 +2,8 @@
 
 <robot name="kobuki_sim" xmlns:xacro="http://ros.org/wiki/xacro">
 
-	<xacro:property name="robot_namespace" value="/tb2_5"/>
+	<xacro:arg name="namespace" default=""/>
+	<xacro:property name="robot_namespace" value="/$(arg namespace)"/>
 
 	<xacro:macro name="kobuki_sim">
 		<gazebo reference="wheel_left_link">
@@ -152,7 +153,6 @@
 				<plugin name="gazebo_ros_imu_controller" filename="libgazebo_ros_imu_sensor.so">
 					<ros>
 						<argument>~/out:=imu</argument>
-						<!-- TODO! AUTOMATIC NAMESPACE -->
 						<namespace>${robot_namespace}</namespace>
 					</ros>
 					<output_type>sensor_msgs/msg/Imu</output_type>
@@ -192,7 +192,6 @@
 				<wheel_diameter>0.070</wheel_diameter>
 				<max_wheel_torque>1.0</max_wheel_torque>
 				<max_wheel_acceleration>1.0</max_wheel_acceleration>
-				<!-- TODO! AUTOMATIC NAMESPACE -->
 				<ros>
 					<namespace>${robot_namespace}</namespace>
 					<remapping>/tf:=tf</remapping>
@@ -211,6 +210,10 @@
 			<plugin name="joint_states" filename="libgazebo_ros_joint_state_publisher.so">
 				<joint_name>wheel_left_joint</joint_name>
 				<joint_name>wheel_right_joint</joint_name>
+				<ros>
+					<namespace>${robot_namespace}</namespace>
+					<remapping>/joint_states:=joint_states</remapping>
+				</ros>
 			</plugin>
 		</gazebo>
 	</xacro:macro>
